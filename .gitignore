@@ -1,0 +1,6 @@
+# Session
+.vim-sessions/
+
+# File
+doc/tags
+*.swp
