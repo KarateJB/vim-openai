@@ -1,0 +1,29 @@
+*openai.txt* A Vim plugin to integrate OpenAI API.
+
+Author:  KarateJB <https://github.com/KarateJB>
+License: Same terms as Vim itself (see |license|)
+
+INTRODUCTION                                    *openai*
+
+vim-openai is a Vim plugin to integrate OpenAI API to use its functions without leaving Vim.
+
+COMMANDS                                        *openai-commands*
+
+:Chatgpt {text}         Pass the text to ChatGPT Completion API, and retrieve the response text in a new buffer.
+
+CONFIGURATION                                   *openai-configuration*
+
+* set ChatGPT API Key
+  let g:chatgpt_apikey='...'
+
+* set ChatGPT max token
+  " This is optional, the default value is 1000.
+  let g:chatgpt_maxtoken=1000
+
+ABOUT                                           *openai-about*
+
+Grab the latest version or report a bug on GitHub, contributions and pull requests are welcome.
+
+https://github.com/KarateJB/vim-openai
+
+ vim:tw=78:et:ft=help:norl:
