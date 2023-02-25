@@ -1,8 +1,9 @@
 scriptencoding utf-8
 
+com -nargs=0 ChatgptCurrent call s:func_chatgpt()
 com -nargs=1 Chatgpt call s:func_chatgpt(<args>)
 
-function s:func_chatgpt(prompt) abort
+function! s:func_chatgpt(prompt = '') abort
 
     " g:chatgpt_apikey: API Key.
     " g:chatgpt_maxtoken: the maximum length of a sequence of tokens that a text generation model can produce.
@@ -19,14 +20,18 @@ function s:func_chatgpt(prompt) abort
       let s:maxtoken = get(g:, 'chatgpt_maxtoken')
     endif
 
-    if !exists(a:prompt)
-      let a:prompt = join(getline(1, '$'), '\n')
+    echo a:prompt
+    if a:prompt == ''
+      let s:prompt = join(getline(1, '$'), '\n')
+      let s:prompt = substitute(s:prompt,'\\n','','g')
+    else
+      let s:prompt = get(a:, 'prompt', '')
     endif
-    
     if !exists("s:request_cmd")
       let s:request_cmd = 'curl https://api.openai.com/v1/completions -H ''Content-Type: application/json'' -H ''Authorization: Bearer ' . s:apikey . ''' -d ''{"model": "text-davinci-002", "prompt": "PROMPT", "max_tokens": ' . s:maxtoken . '}'''
     endif
-    let s:request = substitute(s:request_cmd,"PROMPT",a:prompt,"")
+    let s:request = substitute(s:request_cmd,"PROMPT",s:prompt,"")
+    echom s:request
     " let s:request = substitute(s:request,"\\\\","","g")
     " let s:response = system("./chatgpt.sh")
     if has("gui_running")
