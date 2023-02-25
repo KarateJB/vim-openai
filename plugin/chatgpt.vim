@@ -18,6 +18,10 @@ function s:func_chatgpt(prompt) abort
     else
       let s:maxtoken = get(g:, 'chatgpt_maxtoken')
     endif
+
+    if !exists(a:prompt)
+      let a:prompt = join(getline(1, '$'), '\n')
+    endif
     
     if !exists("s:request_cmd")
       let s:request_cmd = 'curl https://api.openai.com/v1/completions -H ''Content-Type: application/json'' -H ''Authorization: Bearer ' . s:apikey . ''' -d ''{"model": "text-davinci-002", "prompt": "PROMPT", "max_tokens": ' . s:maxtoken . '}'''
