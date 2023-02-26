@@ -14,11 +14,16 @@ COMMANDS                                        *openai-commands*
 CONFIGURATION                                   *openai-configuration*
 
 * set ChatGPT API Key
-  let g:chatgpt_apikey='...'
+  let g:chatgpt_apikey = '...'
 
 * set ChatGPT max token
   " This is optional, the default value is 1000.
-  let g:chatgpt_maxtoken=1000
+  let g:chatgpt_maxtoken = 1000
+
+* set focusing on result, the cursor will be on the new buffer with result.
+  " This is optional, the default value is 0 (false).
+  let g:chatgpt_focus_result = 1
+
 
 ABOUT                                           *openai-about*
 
