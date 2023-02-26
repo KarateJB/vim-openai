@@ -1,12 +1,13 @@
 scriptencoding utf-8
 
-com -nargs=0 ChatgptCurrent call s:func_chatgpt()
-com -nargs=1 Chatgpt call s:func_chatgpt(<args>)
+" command! -nargs=0 ChatgptCurrent call s:func_chatgpt()
+command! -nargs=* Chatgpt call s:func_chatgpt(<args>)
 
 function! s:func_chatgpt(prompt = '') abort
 
     " g:chatgpt_apikey: API Key.
     " g:chatgpt_maxtoken: the maximum length of a sequence of tokens that a text generation model can produce.
+    " g:chatgrp_focus_result: the current buffer will be on the result buffer if set to be 1, otherwise, on the last edit buffer.
     if !exists('g:chatgpt_apikey')
       echo 'API Key is not set. Please set g:chatgpt_apikey in your vimrc file.'
       return
@@ -20,9 +21,16 @@ function! s:func_chatgpt(prompt = '') abort
       let s:maxtoken = get(g:, 'chatgpt_maxtoken')
     endif
 
-    echo a:prompt
+    if !exists('g:chatgpt_focus_result')
+      let s:focus_result = 0
+    else 
+      let s:focus_result = 1
+    endif
+    echo s:focus_result
+
     if a:prompt == ''
       let s:prompt = join(getline(1, '$'), '\n')
+      " Replace the newline with empty string, because the newline will be escapted as ^@ and cause the request fails.
       let s:prompt = substitute(s:prompt,'\\n','','g')
     else
       let s:prompt = get(a:, 'prompt', '')
@@ -31,7 +39,6 @@ function! s:func_chatgpt(prompt = '') abort
       let s:request_cmd = 'curl https://api.openai.com/v1/completions -H ''Content-Type: application/json'' -H ''Authorization: Bearer ' . s:apikey . ''' -d ''{"model": "text-davinci-002", "prompt": "PROMPT", "max_tokens": ' . s:maxtoken . '}'''
     endif
     let s:request = substitute(s:request_cmd,"PROMPT",s:prompt,"")
-    echom s:request
     " let s:request = substitute(s:request,"\\\\","","g")
     " let s:response = system("./chatgpt.sh")
     if has("gui_running")
@@ -47,8 +54,10 @@ function! s:func_chatgpt(prompt = '') abort
     call setline(1, split(s:choice['text'], "\n"))
     " execute '$read !'. s:request
 
-    " go back to original window
-    wincmd p
+    if !get(s:, 'focus_result')
+      " go back to original window
+      wincmd p
+    endif
 endfunction
 
 
