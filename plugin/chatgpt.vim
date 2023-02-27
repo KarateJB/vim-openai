@@ -15,7 +15,6 @@ function! s:func_chatgpt(prompt = '') abort
     " g:chatgpt_apikey: API Key.
     " g:chatgpt_maxtoken: the maximum length of a sequence of tokens that a text generation model can produce.
     " g:chatgrp_focus_result: the current buffer will be on the result buffer if set to be 1, otherwise, on the last edit buffer.
-    echo a:prompt
     if !exists('g:chatgpt_apikey')
       echo 'API Key is not set. Please set g:chatgpt_apikey in your vimrc file.'
       return
@@ -60,18 +59,22 @@ function! s:func_chatgpt(prompt = '') abort
       silent let s:response = system(s:request)
     endif
 
-    let s:response = matchstr(s:response, '{.*}')
-    let s:json = json_decode(s:response)
-    let s:choice = get(s:json['choices'], 0, '')
-    let s:result = split(s:choice['text'], "\n")
-    new
-    call setline(1, s:result)
-    " execute '$read !'. s:request
+    try
+      let s:response = matchstr(s:response, '{.*}')
+      let s:json = json_decode(s:response)
+      let s:choice = get(s:json['choices'], 0, '')
+      let s:result = split(s:choice['text'], "\n")
+      new
+      call setline(1, s:result)
+      " execute '$read !'. s:request
 
-    if !get(s:, 'focus_result')
-      " go back to original window
-      wincmd p
-    endif
+      if !get(s:, 'focus_result')
+        " go back to original window
+        wincmd p
+      endif
+    catch
+      echo 'Cannot get correct response from ChatGPT for now. Please try again.'
+    endtry
 endfunction
 
 
