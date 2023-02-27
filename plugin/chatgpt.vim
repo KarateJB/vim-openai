@@ -50,8 +50,9 @@ function! s:func_chatgpt(prompt = '') abort
     let s:response = matchstr(s:response, '{.*}')
     let s:json = json_decode(s:response)
     let s:choice = get(s:json['choices'], 0, '')
+    let s:result = split(s:choice['text'], "\n")
     new
-    call setline(1, split(s:choice['text'], "\n"))
+    call setline(1, s:result, "\n"))
     " execute '$read !'. s:request
 
     if !get(s:, 'focus_result')
