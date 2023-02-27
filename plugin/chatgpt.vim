@@ -2,6 +2,13 @@ scriptencoding utf-8
 
 " command! -nargs=0 ChatgptCurrent call s:func_chatgpt()
 command! -nargs=* Chatgpt call s:func_chatgpt(<args>)
+command! -range ChatgptSelection '<,'> call s:func_chatgpt_selection()
+
+function! s:func_chatgpt_selection() range
+  let s:selection = openai#get_visual_selection()
+  let s:selection = substitute(s:selection,'\\n','','g')
+  call s:func_chatgpt(s:selection)
+endfunction
 
 function! s:func_chatgpt(prompt = '') abort
 
@@ -26,7 +33,6 @@ function! s:func_chatgpt(prompt = '') abort
     else 
       let s:focus_result = 1
     endif
-    echo s:focus_result
 
     if a:prompt == ''
       let s:prompt = join(getline(1, '$'), '\n')
@@ -35,6 +41,12 @@ function! s:func_chatgpt(prompt = '') abort
     else
       let s:prompt = get(a:, 'prompt', '')
     endif
+
+    if s:prompt == ''
+      echo 'Cannot retrieve any prompt for ChatGPT! Please try again.'
+      return
+    endif
+
     if !exists("s:request_cmd")
       let s:request_cmd = 'curl https://api.openai.com/v1/completions -H ''Content-Type: application/json'' -H ''Authorization: Bearer ' . s:apikey . ''' -d ''{"model": "text-davinci-002", "prompt": "PROMPT", "max_tokens": ' . s:maxtoken . '}'''
     endif
@@ -47,17 +59,22 @@ function! s:func_chatgpt(prompt = '') abort
       silent let s:response = system(s:request)
     endif
 
-    let s:response = matchstr(s:response, '{.*}')
-    let s:json = json_decode(s:response)
-    let s:choice = get(s:json['choices'], 0, '')
-    new
-    call setline(1, split(s:choice['text'], "\n"))
-    " execute '$read !'. s:request
+    try
+      let s:response = matchstr(s:response, '{.*}')
+      let s:json = json_decode(s:response)
+      let s:choice = get(s:json['choices'], 0, '')
+      let s:result = split(s:choice['text'], "\n")
+      new
+      call setline(1, s:result)
+      " execute '$read !'. s:request
 
-    if !get(s:, 'focus_result')
-      " go back to original window
-      wincmd p
-    endif
+      if !get(s:, 'focus_result')
+        " go back to original window
+        wincmd p
+      endif
+    catch
+      echo 'Cannot get correct response from ChatGPT for now. Please try again.'
+    endtry
 endfunction
 
 
