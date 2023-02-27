@@ -33,12 +33,19 @@ It will open a new buffer and show the completion response.
 
 ### Input prompt from current buffer
 
+When there is no argument, the command `Chatgpt` takes current buffer's all content as prompt to ChatGPT.
+
 ```
 :Chatgpt
 ```
 
-That will take current buffer's all content as prompt to ChatGPT.
+### Input prompt from selection
 
+When in Visual Mode, we can pass the selected text as prompt to ChatGPT by command `ChatgptSelection`.
+
+```
+:'<,'>ChatgptSelection
+```
 
 ## License
 
