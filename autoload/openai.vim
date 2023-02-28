@@ -12,3 +12,9 @@ function! openai#get_visual_selection()
     let lines[0] = lines[0][column_start - 1:]
     return join(lines, "\n")
 endfunction
+
+function! openai#prompt_md_table()
+    let s:selection = openai#get_visual_selection()
+    let s:prompt = 'Format the text to markdown table, the first line is the field name and the values are separated by tab, also center the values: " . s:seletion
+    return s:prompt
+endfunction
