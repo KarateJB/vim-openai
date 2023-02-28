@@ -47,6 +47,13 @@ When in Visual Mode, we can pass the selected text as prompt to ChatGPT by comma
 :'<,'>ChatgptSelection
 ```
 
+## Demo
+
+![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjC7Ovb-jUPkUa8mSh9FWXr7fmqEZCc7RgCatVMviw_JzwjWwyenmdPQFpJ-SsA2-JrNciRj5XzMi3uXc8dHJOPoWLA0RQGtHlJ8eNMtVxBM-ZfsO-FAbMHYqDjd8_5mThHq4x2rf-7jnKpVclTL4B4mTDbUcp-0yidHJN6vtaqqFEwfC_S3cTS4Ygg/s16000/vim-openai-chatgpt-01.gif.gif)
+
+![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEipqT0LyhIp20lTu_qaqHFwssFqCY0w9faFqbjAdPgzterGmO8XGsDfT-4Nz3FqqUqx0WDENbSorggoR6DJqUcXyUDd_EVpP7mkK0-79kliUhAejSCWxdS5LlRl_SjnrSSFQLR62QXqN2nx1hBN02DkyZ2Sk-CvERXKpZFkyYhbbGel0kWFOA93TyY9/s16000/vim-openai-chatgpt-02.gif.gif)
+
+
 ## License
 
 Copyright (c) KarateJB. Distributed under the same terms as Vim itself. See `:help license`.
