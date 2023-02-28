@@ -36,10 +36,10 @@ function! s:func_chatgpt(prompt = '') abort
 
     if a:prompt == ''
       let s:prompt = join(getline(1, '$'), '\n')
-      " Replace the newline with empty string, because the newline will be escapted as ^@ and cause the request fails.
-      let s:prompt = substitute(s:prompt,'\\n','','g')
+      let s:prompt = substitute(s:prompt, '\\n',' ','g')
     else
       let s:prompt = get(a:, 'prompt', '')
+      let s:prompt = substitute(s:prompt, "\n",' ','g')
     endif
 
     if s:prompt == ''

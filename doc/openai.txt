@@ -9,7 +9,10 @@ vim-openai is a Vim plugin to integrate OpenAI API to use its functions without 
 
 COMMANDS                                        *openai-commands*
 
-:Chatgpt {text}         Pass the text to ChatGPT Completion API, and retrieve the response text in a new buffer.
+:Chatgpt                     Pass current buffer's all content to ChatGPT Completion API, and retrieve the response text in a new buffer.
+:Chatgpt {text}              Pass the text to ChatGPT Completion API, and retrieve the response text in a new buffer.
+:'<,'>ChatgptSelection       Pass current selected text to ChatGPT Completion API, and retrieve the response text in a new buffer.
+
 
 CONFIGURATION                                   *openai-configuration*
 
