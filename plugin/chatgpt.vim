@@ -3,11 +3,25 @@ scriptencoding utf-8
 " command! -nargs=0 ChatgptCurrent call s:func_chatgpt()
 command! -nargs=* Chatgpt call s:func_chatgpt(<args>)
 command! -range ChatgptSelection '<,'> call s:func_chatgpt_selection()
+command! -nargs=1 -range ChatgptMarkdown '<,'> call s:func_chatgpt_markdown(<args>)
 
 function! s:func_chatgpt_selection() range
   let s:selection = openai#get_visual_selection()
-  let s:selection = substitute(s:selection,'\\n','','g')
+  " let s:selection = substitute(s:selection,'\\n','','g')
   call s:func_chatgpt(s:selection)
+endfunction
+
+function! s:func_chatgpt_markdown(hint) range
+  echo a:hint
+  if a:hint == ''
+    echo 'Required argument. See :h ChatgptMarkdown.'
+    return
+  endif
+
+  if a:hint == 'table'
+    let l:prompt = openai#prompt_md_table()
+    call s:func_chatgpt(l:prompt)
+  endif
 endfunction
 
 function! s:func_chatgpt(prompt = '') abort
