@@ -12,7 +12,6 @@ function! s:func_chatgpt_selection() range
 endfunction
 
 function! s:func_chatgpt_markdown(hint) range
-  echo a:hint
   if a:hint == ''
     echo 'Required argument. See :h ChatgptMarkdown.'
     return
@@ -20,8 +19,14 @@ function! s:func_chatgpt_markdown(hint) range
 
   if a:hint == 'table'
     let l:prompt = openai#prompt_md_table()
-    call s:func_chatgpt(l:prompt)
+  elseif a:hint == 'format'
+    let l:prompt = openai#prompt_md_format()
   endif
+
+  " TODO: the following escape cannot solve the error of CURL.
+  let l:prompt = escape(l:prompt, '"''')
+  echo l:prompt
+  call s:func_chatgpt(l:prompt)
 endfunction
 
 function! s:func_chatgpt(prompt = '') abort

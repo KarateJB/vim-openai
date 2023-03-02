@@ -18,3 +18,9 @@ function! openai#prompt_md_table()
     let l:prompt = 'Format the text to markdown table, the first line is the field name and the values are separated by tab, also center the values: ' . l:selection
     return l:prompt
 endfunction
+
+function! openai#prompt_md_format()
+    let l:selection = openai#get_visual_selection()
+    let l:prompt = 'Format the text to markdown syntax with header and contents: ' . l:selection
+    return l:prompt
+endfunction
