@@ -25,7 +25,6 @@ function! s:func_chatgpt_markdown(hint) range
 
   " TODO: the following escape cannot solve the error of CURL.
   let l:prompt = escape(l:prompt, '"''')
-  echo l:prompt
   call s:func_chatgpt(l:prompt)
 endfunction
 
@@ -61,6 +60,10 @@ function! s:func_chatgpt(prompt = '') abort
       let s:prompt = substitute(s:prompt, "\n",' ','g')
     endif
 
+    " Hack
+    " let s:prompt = shellescape(s:prompt)
+    echo s:prompt
+
     if s:prompt == ''
       echo 'Cannot retrieve any prompt for ChatGPT! Please try again.'
       return
@@ -72,14 +75,16 @@ function! s:func_chatgpt(prompt = '') abort
     let s:request = substitute(s:request_cmd,"PROMPT",s:prompt,"")
     " let s:request = substitute(s:request,"\\\\","","g")
     " let s:response = system("./chatgpt.sh")
+    echo s:request
     if has("gui_running")
       silent let s:response = system(escape(s:request, '"'))
     else
       silent let s:response = system(s:request)
     endif
 
-    try
+    " try
       let s:response = matchstr(s:response, '{.*}')
+      echo s:response
       let s:json = json_decode(s:response)
       let s:choice = get(s:json['choices'], 0, '')
       let s:result = split(s:choice['text'], "\n")
@@ -91,9 +96,9 @@ function! s:func_chatgpt(prompt = '') abort
         " go back to original window
         wincmd p
       endif
-    catch
-      echo 'Cannot get correct response from ChatGPT for now. Please try again.'
-    endtry
+    " catch
+    "   echo 'Cannot get correct response from ChatGPT for now. Please try again.'
+    " endtry
 endfunction
 
 
