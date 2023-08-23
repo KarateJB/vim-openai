@@ -14,7 +14,7 @@ function! s:func_chatgpt(prompt = '') abort
 
     " g:chatgpt_apikey: API Key.
     " g:chatgpt_maxtoken: the maximum length of a sequence of tokens that a text generation model can produce.
-    " g:chatgrp_focus_result: the current buffer will be on the result buffer if set to be 1, otherwise, on the last edit buffer.
+    " g:chatgpt_focus_result: the current buffer will be on the result buffer if set to be 1, otherwise, on the last edit buffer.
     if !exists('g:chatgpt_apikey')
       echo 'API Key is not set. Please set g:chatgpt_apikey in your vimrc file.'
       return
