@@ -61,6 +61,8 @@ function! s:func_chatgpt(prompt = '') abort
 
     let s:json = ''
     try
+      " For local testin
+      " let s:response = '{"choices":[{"finish_reason":"length","index":0,"logprobs":null,"text":"\n\n\Awesome Vim\n"}],"created":1683130927,"id":"xxx","model":"gpt-3.5-turbo-instruct","object":"text_completion","usage":{"completion_tokens":16,"prompt_tokens":10,"total_tokens":26}}'
       let s:response = matchstr(s:response, '{.*}')
       let s:json = json_decode(s:response)
 
@@ -85,5 +87,4 @@ function! s:func_chatgpt(prompt = '') abort
       echom 'Cannot get correct response from ChatGPT for now. Please try again.'
     endtry
 endfunction
-
 
