@@ -75,12 +75,12 @@ function! s:func_chatgpt(prompt = '') abort
           " go back to original window
           wincmd p
         endif
-      catch
-        let s:error = get(s:json['error']['message'], 0, '')
+
+      catch " while cannot retieve the choice
+        let s:error = s:json['error']['message']
         echom s:error
-        else
-          throw 'Unexpeted error'
       endtry
+
     catch
       echom 'Cannot get correct response from ChatGPT for now. Please try again.'
     endtry
