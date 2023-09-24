@@ -50,7 +50,7 @@ function! s:func_chatgpt(prompt = '') abort
     if !exists("s:request_cmd")
       let s:request_cmd = 'curl https://api.openai.com/v1/completions -H ''Content-Type: application/json'' -H ''Authorization: Bearer ' . s:apikey . ''' -d ''{"model": "text-davinci-002", "prompt": "PROMPT", "max_tokens": ' . s:maxtoken . '}'''
     endif
-    let s:request = substitute(s:request_cmd,"PROMPT",s:prompt,"")
+    let s:request = substitute(s:request_cmd, "PROMPT", s:prompt, "")
     " let s:request = substitute(s:request,"\\\\","","g")
     " let s:response = system("./chatgpt.sh")
     if has("gui_running")
@@ -59,21 +59,30 @@ function! s:func_chatgpt(prompt = '') abort
       silent let s:response = system(s:request)
     endif
 
+    let s:json = ''
     try
       let s:response = matchstr(s:response, '{.*}')
       let s:json = json_decode(s:response)
-      let s:choice = get(s:json['choices'], 0, '')
-      let s:result = split(s:choice['text'], "\n")
-      new
-      call setline(1, s:result)
-      " execute '$read !'. s:request
 
-      if !get(s:, 'focus_result')
-        " go back to original window
-        wincmd p
-      endif
+      try
+        let s:choice = get(s:json['choices'], 0, '')
+        let s:result = split(s:choice['text'], "\n")
+        new
+        call setline(1, s:result)
+        " execute '$read !'. s:request
+
+        if !get(s:, 'focus_result')
+          " go back to original window
+          wincmd p
+        endif
+      catch
+        let s:error = get(s:json['error']['message'], 0, '')
+        echom s:error
+        else
+          throw 'Unexpeted error'
+      endtry
     catch
-      echo 'Cannot get correct response from ChatGPT for now. Please try again.'
+      echom 'Cannot get correct response from ChatGPT for now. Please try again.'
     endtry
 endfunction
 
