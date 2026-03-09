@@ -55,6 +55,24 @@ When in Visual Mode, we can pass the selected text as prompt to ChatGPT by comma
 ![](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEipqT0LyhIp20lTu_qaqHFwssFqCY0w9faFqbjAdPgzterGmO8XGsDfT-4Nz3FqqUqx0WDENbSorggoR6DJqUcXyUDd_EVpP7mkK0-79kliUhAejSCWxdS5LlRl_SjnrSSFQLR62QXqN2nx1hBN02DkyZ2Sk-CvERXKpZFkyYhbbGel0kWFOA93TyY9/s16000/vim-openai-chatgpt-02.gif.gif)
 
 
+## Reference
+
+### Doc
+
+- [Chat Completions](https://developers.openai.com/api/reference/resources/chat/subresources/completions)
+
+### curl command
+
+```sh
+#!/bin/bash
+curl https://api.openai.com/v1/completions \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer your_token' \
+    -d '{"model": "gpt-5.4", "prompt": "List all country names on the earth", "max_tokens": 100}'
+     # -H 'OpenAI-Organization: org-xxxxxxx'
+
+```
+
 ## License
 
 Copyright (c) KarateJB. Distributed under the same terms as Vim itself. See `:help license`.
