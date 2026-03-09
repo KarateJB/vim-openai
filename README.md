@@ -19,6 +19,7 @@ Set the following variables in your vimrc file.
 | g:chatgpt_apikey | string | required | Your API key. |
 | g:chatgpt_maxtoken | number | optional | The number of max token. The default value is `1000`. |
 | g:chatgpt_focus_result | boolean | optional | 0: go back to the last edit buffer, 1: move the cursor to the new buffer with result. The default value is `0`. |
+| g:chatgpt_model | string | optional | The model to use for chat completion. The default value is `gpt-3.5-turbo`. |
 
 
 ## How to use
